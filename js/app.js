@@ -34,6 +34,11 @@ class Tomagotchi{
 
         this.displayStats()
     }
+    changeName(){
+        const name = document.querySelector("#name").value
+        this.name = name
+        document.querySelector("h1").innerHTML = this.name     
+    }
 }
 
 const toma = new Tomagotchi()
@@ -45,5 +50,4 @@ const playBtn = document.querySelector('#play')
 playBtn.addEventListener("click", ()=>toma.play())
 const sleepBtn = document.querySelector('#sleep')
 console.log(sleepBtn)
-sleepBtn.addEventListener("click", ()=>{
-    toma.lightsOff()})
+sleepBtn.addEventListener("click", ()=>toma.lightsOff())
