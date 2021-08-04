@@ -25,6 +25,13 @@ class Tomagotchi{
     }
     lightsOff(){
         this.sleep--
+        const screen = document.querySelector('#screen')
+        screen.style.backgroundColor = "#346856"
+        setTimeout(function(){
+            // some code
+            screen.style.backgroundColor = "#88c070"
+       },1000);
+
         this.displayStats()
     }
 }
@@ -39,4 +46,4 @@ playBtn.addEventListener("click", ()=>toma.play())
 const sleepBtn = document.querySelector('#sleep')
 console.log(sleepBtn)
 sleepBtn.addEventListener("click", ()=>{
-    toma.lightsOff())
+    toma.lightsOff()})
