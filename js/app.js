@@ -4,6 +4,7 @@ class Tomagotchi{
         this.sleep = 1
         this.boredom = 1
         this.age = 0
+        this.alive = true
     }
     displayStats(){
         const liStats = document.querySelectorAll('#statsList')
@@ -39,9 +40,33 @@ class Tomagotchi{
         document.querySelector("h1").innerHTML = this.name
         
         const aging = setInterval(()=>this.ageUp(),5000)
+        //randomly change a stat within an interval of 0-2 seconds
+        const statChange = setInterval(()=>{
+                const randMethod = Math.floor(Math.random()*4)
+                console.log(randMethod)
+                if(randMethod === 0 ){
+                    this.hungerUp()
+                }else if(randMethod === 1){
+                    this.sleepUp()
+                }else{
+                    this.boredomUp()
+                }
+            },(Math.floor(Math.random()*2000)))
     }
     ageUp(){
         this.age++
+        this.displayStats()
+    }
+    hungerUp(){
+        this.hunger++
+        this.displayStats()
+    }
+    sleepUp(){
+        this.sleep++
+        this.displayStats()
+    }
+    boredomUp(){
+        this.boredom++
         this.displayStats()
     }
 }
