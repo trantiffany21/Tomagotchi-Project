@@ -22,6 +22,7 @@ const game = () => {
 
         //randomly change a stat within an interval of 0.5-2.5 seconds
         const statChange = setInterval(()=>toma.game(),toma.randomTime())
+
     
 }
 
@@ -41,6 +42,9 @@ class Tomagotchi{
         liStats[1].innerHTML = `Boredom: ${this.boredom}`
         liStats[2].innerHTML = `Sleep: ${this.sleep}`
         liStats[3].innerHTML = `Age: ${this.age}`
+        console.log("hunger " + this.hunger)
+        console.log("boredom " +this.boredom)
+        console.log("sleep " + this.sleep)
         
       
     }
@@ -67,9 +71,6 @@ class Tomagotchi{
                 this.displayStats()
             }
     }
-        
-    
-    
     ageUp(){
         if(this.alive === false){
             return false
@@ -99,14 +100,18 @@ class Tomagotchi{
         if(this.alive === false){
             return false
         }
+        //select random stat to increase
         const randMethod = Math.floor(Math.random()*4)
-        console.log(randMethod)
+
         if(randMethod === 0 ){
             this.hungerUp()
+            this.animate()
         }else if(randMethod === 1){
             this.sleepUp()
+            this.animate()
         }else{
             this.boredomUp()
+            this.animate()
         }
         this.displayStats()
     }
@@ -119,6 +124,16 @@ class Tomagotchi{
     gameOver(reason){
         alert(`${this.name} has died of ${reason}!`)
         this.alive = false
+    }
+
+    animate(){
+        const img = document.querySelector("#img-box")
+        const justify = ['flex-start', 'flex-end', 'center']
+        const align = ['flex-start', 'flex-end', 'center']
+        const rand1 = Math.floor(Math.random()*3)
+        const rand2 = Math.floor(Math.random()*3)
+        img.style['justify-content'] = justify[rand1]
+        img.style['align-items'] = align[rand2]
     }
 }
 
