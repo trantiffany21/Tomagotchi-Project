@@ -21,20 +21,8 @@ const game = () => {
         const aging = setInterval(()=>toma.ageUp(),5000)
 
         //randomly change a stat within an interval of 0.5-2.5 seconds
-        const statChange = setInterval(()=>{
-                const randMethod = Math.floor(Math.random()*4)
-                console.log(randMethod)
-                if(randMethod === 0 ){
-                    toma.hungerUp()
-                }else if(randMethod === 1){
-                    toma.sleepUp()
-                }else{
-                    toma.boredomUp()
-                }
-                console.log("hunger", toma.hunger)
-                toma.displayStats()
-            },(Math.floor(Math.random()*2000)+500))
-
+        const statChange = setInterval(()=>toma.game(),toma.randomTime())
+    
 }
 
 class Tomagotchi{
@@ -83,17 +71,54 @@ class Tomagotchi{
     
     
     ageUp(){
+        if(this.alive === false){
+            return false
+        }
         this.age++
         this.displayStats()
     }
     hungerUp(){
         this.hunger++
+        if(this.hunger >=10 ){
+            gameOver("hunger")
+        }
     }
     sleepUp(){
         this.sleep++
+        if(this.sleep >=10 ){
+            gameOver("fatigue")
+        }
     }
     boredomUp(){
         this.boredom++
+        if(this.boredom >=10 ){
+            this.gameOver("boredom")
+        }
+    }
+    game(){
+        if(this.alive === false){
+            return false
+        }
+        const randMethod = Math.floor(Math.random()*4)
+        console.log(randMethod)
+        if(randMethod === 0 ){
+            this.hungerUp()
+        }else if(randMethod === 1){
+            this.sleepUp()
+        }else{
+            this.boredomUp()
+        }
+        this.displayStats()
+    }
+    randomTime(){
+        const time = Math.floor(Math.random()*2000)+500;
+        console.log(time)
+        return time
+    }
+
+    gameOver(reason){
+        alert(`${this.name} has died of ${reason}!`)
+        this.alive = false
     }
 }
 
