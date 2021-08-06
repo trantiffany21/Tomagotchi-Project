@@ -1,5 +1,9 @@
 //game function
 const game = () => {
+        //remove submit button
+        const submit = document.querySelector("#submit")
+        submit.remove()
+
         //create tomagotchi
         const name = document.querySelector("#name").value
         document.querySelector("h1").innerHTML = name
@@ -23,6 +27,11 @@ const game = () => {
         //randomly change a stat within an interval of 0.5-2.5 seconds
         const statChange = setInterval(()=>toma.game(),toma.randomTime())
 
+        if(toma.alive === false){
+            clearInterval(aging)
+            clearInterval(statChange)
+            console.log("game over")
+        }
     
 }
 
@@ -77,17 +86,25 @@ class Tomagotchi{
         }
         this.age++
         this.displayStats()
+        if(this.age >=10){
+            const img = document.querySelector("img")
+            img.src = "images/charizard.png"
+        }else if(this.age >= 5){
+            const img = document.querySelector("img")
+            img.src = "images/charmeleon.png"
+        }
+
     }
     hungerUp(){
         this.hunger++
         if(this.hunger >=10 ){
-            gameOver("hunger")
+            this.gameOver("hunger")
         }
     }
     sleepUp(){
         this.sleep++
         if(this.sleep >=10 ){
-            gameOver("fatigue")
+            this.gameOver("fatigue")
         }
     }
     boredomUp(){
@@ -102,7 +119,7 @@ class Tomagotchi{
         }
         //select random stat to increase
         const randMethod = Math.floor(Math.random()*4)
-
+        
         if(randMethod === 0 ){
             this.hungerUp()
             this.animate()
@@ -113,27 +130,34 @@ class Tomagotchi{
             this.boredomUp()
             this.animate()
         }
-        this.displayStats()
+        if(this.alive === true){
+            this.displayStats()
+        }
     }
     randomTime(){
         const time = Math.floor(Math.random()*2000)+500;
-        console.log(time)
+        console.log("Milliseconds: " + time)
         return time
     }
 
     gameOver(reason){
-        alert(`${this.name} has died of ${reason}!`)
+        // alert(`${this.name} has died of ${reason}!`)
+        const liStats = document.querySelectorAll("#statsList")
+        liStats[0].innerHTML =`${this.name.toUpperCase()} HAS DIED OF ${reason.toUpperCase()}! GAME OVER`
+        liStats[1].innerHTML = ""
+        liStats[2].innerHTML = ""
+        liStats[3].innerHTML = ""
         this.alive = false
     }
 
     animate(){
-        const img = document.querySelector("#img-box")
+        const imgBox = document.querySelector("#img-box")
         const justify = ['flex-start', 'flex-end', 'center']
         const align = ['flex-start', 'flex-end', 'center']
         const rand1 = Math.floor(Math.random()*3)
         const rand2 = Math.floor(Math.random()*3)
-        img.style['justify-content'] = justify[rand1]
-        img.style['align-items'] = align[rand2]
+        imgBox.style['justify-content'] = justify[rand1]
+        imgBox.style['align-items'] = align[rand2]
     }
 }
 
