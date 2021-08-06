@@ -47,7 +47,6 @@ h1{
 }
 #stats{
     padding-top: 10px;
-    padding-left: -100px;
     display:flex;
     justify-content: left;
 }
@@ -59,6 +58,7 @@ h1{
 }
 ul{
     list-style-type: none;
+    padding: 5px; 
 }
 .button{
     height:75px;
@@ -81,4 +81,7 @@ ul{
     height: 200px; 
     display: flex;
     justify-content: center;
+}
+form{
+    margin: 50px 0 0 50px; 
 }

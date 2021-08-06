@@ -25,7 +25,7 @@ const game = () => {
         const aging = setInterval(()=>toma.ageUp(),5000)
 
         //randomly change a stat within an interval of 0.5-2.5 seconds
-        const statChange = setInterval(()=>toma.game(),toma.randomTime())
+        const statChange = setInterval(()=>toma.game(),toma.time)
 
         if(toma.alive === false){
             clearInterval(aging)
@@ -44,9 +44,11 @@ class Tomagotchi{
         this.age = 0
         this.alive = true
         this.displayStats()
+        this.time = 2000
     }
     displayStats(){
         const liStats = document.querySelectorAll('#statsList')
+        liStats[0].style.borderStyle = "none"
         liStats[0].innerHTML = `Hunger: ${this.hunger}`
         liStats[1].innerHTML = `Boredom: ${this.boredom}`
         liStats[2].innerHTML = `Sleep: ${this.sleep}`
@@ -86,13 +88,35 @@ class Tomagotchi{
         }
         this.age++
         this.displayStats()
-        if(this.age >=10){
-            const img = document.querySelector("img")
+        
+
+    }
+    evolveCheck(){
+        const img = document.querySelector("img")
+        console.log(img.src)
+        if(this.age >=2 && img.src === "file:///Users/tiffanytran/sei-bromeliad/projects/Tomagotchi-Project/images/charmeleon.png" ){
             img.src = "images/charizard.png"
-        }else if(this.age >= 5){
-            const img = document.querySelector("img")
+            const liStats = document.querySelectorAll("#statsList")
+            liStats[0].innerHTML =`${this.name.toUpperCase()} evolved into CHARIZARD`
+            liStats[0].style.borderStyle = "double"
+            liStats[0].style.borderColor = "black"
+            liStats[1].innerHTML = ""
+            liStats[2].innerHTML = ""
+            liStats[3].innerHTML = ""
+            return true;
+        }else if(this.age >= 1 && img.src === "file:///Users/tiffanytran/sei-bromeliad/projects/Tomagotchi-Project/images/charmander.png"){
+            const liStats = document.querySelectorAll("#statsList")
             img.src = "images/charmeleon.png"
+            img.style.height = (img.clientHeight + 10) + "px"
+            liStats[0].innerHTML =`${this.name.toUpperCase()} evolved into CHARMELEON`
+            liStats[0].style.borderStyle = "double"
+            liStats[0].style.borderColor = "black"
+            liStats[1].innerHTML = ""
+            liStats[2].innerHTML = ""
+            liStats[3].innerHTML = ""
+            return true; 
         }
+        return false;
 
     }
     hungerUp(){
@@ -131,14 +155,18 @@ class Tomagotchi{
             this.animate()
         }
         if(this.alive === true){
-            this.displayStats()
+            if(this.evolveCheck() === true){
+                setTimeout(()=> this.displayStats(), 3000)
+            }else{
+                this.displayStats()
+            }
         }
     }
-    randomTime(){
-        const time = Math.floor(Math.random()*2000)+500;
-        console.log("Milliseconds: " + time)
-        return time
-    }
+    // randomTime(){
+    //     const time = Math.floor(Math.random()*2000)+500;
+    //     console.log("Milliseconds: " + time)
+    //     return time
+    // }
 
     gameOver(reason){
         // alert(`${this.name} has died of ${reason}!`)
