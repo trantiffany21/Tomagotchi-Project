@@ -24,7 +24,7 @@ const game = () => {
         
         const aging = setInterval(()=>toma.ageUp(),5000)
 
-        //randomly change a stat within an interval of 0.5-2.5 seconds
+        //call game
         const statChange = setInterval(()=>toma.game(),toma.time)
 
         if(toma.alive === false){
@@ -45,6 +45,7 @@ class Tomagotchi{
         this.alive = true
         this.displayStats()
         this.time = 2000
+        this.level = 1
     }
     displayStats(){
         const liStats = document.querySelectorAll('#statsList')
@@ -94,7 +95,7 @@ class Tomagotchi{
     evolveCheck(){
         const img = document.querySelector("img")
         console.log(img.src)
-        if(this.age >=2 && img.src === "file:///Users/tiffanytran/sei-bromeliad/projects/Tomagotchi-Project/images/charmeleon.png" ){
+        if(this.age >=36 && this.level === 2){
             img.src = "images/charizard.png"
             const liStats = document.querySelectorAll("#statsList")
             liStats[0].innerHTML =`${this.name.toUpperCase()} evolved into CHARIZARD`
@@ -103,8 +104,10 @@ class Tomagotchi{
             liStats[1].innerHTML = ""
             liStats[2].innerHTML = ""
             liStats[3].innerHTML = ""
+            this.level = 3
+            this.time = 500
             return true;
-        }else if(this.age >= 1 && img.src === "file:///Users/tiffanytran/sei-bromeliad/projects/Tomagotchi-Project/images/charmander.png"){
+        }else if(this.age >= 16 && this.level === 1){
             const liStats = document.querySelectorAll("#statsList")
             img.src = "images/charmeleon.png"
             img.style.height = (img.clientHeight + 10) + "px"
@@ -114,6 +117,8 @@ class Tomagotchi{
             liStats[1].innerHTML = ""
             liStats[2].innerHTML = ""
             liStats[3].innerHTML = ""
+            this.level = 2
+            this.time = 1000
             return true; 
         }
         return false;
@@ -156,17 +161,12 @@ class Tomagotchi{
         }
         if(this.alive === true){
             if(this.evolveCheck() === true){
-                setTimeout(()=> this.displayStats(), 3000)
-            }else{
+                 setTimeout(()=> this.displayStats(), 3000)
+             }else{
                 this.displayStats()
             }
         }
     }
-    // randomTime(){
-    //     const time = Math.floor(Math.random()*2000)+500;
-    //     console.log("Milliseconds: " + time)
-    //     return time
-    // }
 
     gameOver(reason){
         // alert(`${this.name} has died of ${reason}!`)
@@ -175,6 +175,8 @@ class Tomagotchi{
         liStats[1].innerHTML = ""
         liStats[2].innerHTML = ""
         liStats[3].innerHTML = ""
+        document.querySelector("img").src = "images/gameover.png"
+        document.querySelector("img").style.height = "150px";
         this.alive = false
     }
 
