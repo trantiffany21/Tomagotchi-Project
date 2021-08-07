@@ -218,7 +218,7 @@ class Tomagotchi{
         imgBox.style['align-items'] = align[rand2]
     }
     start(){
-        this.aging = setInterval(()=>this.ageUp(),5000)
+        this.aging = setInterval(()=>this.ageUp(),2500)
         this.statChange = setInterval(()=>this.game(),this.time)
     }
     restart(){
