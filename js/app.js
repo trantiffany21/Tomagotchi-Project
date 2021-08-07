@@ -22,16 +22,7 @@ const game = () => {
         const sleepBtn = document.querySelector('#sleep')
         sleepBtn.addEventListener("click", ()=>toma.lightsOff())
         
-        //const aging = setInterval(()=>toma.ageUp(),5000)
 
-        //call game
-        //const statChange = setInterval(()=>toma.game(),toma.time)
-
-        if(toma.alive === false){
-            clearInterval(aging)
-            clearInterval(statChange)
-            console.log("game over")
-        }
     
 }
 
@@ -48,11 +39,11 @@ class Tomagotchi{
         this.level = 1
         this.start()
 
-
-        //this.statChange = setInterval(()=>this.game(),this.time)
-        //this.aging = setInterval(()=>toma.ageUp(),5000)""
     }
     displayStats(){
+        if(this.alive === false){
+            return false
+        }
         const liStats = document.querySelectorAll('#statsList')
         liStats[0].style.borderStyle = "none"
         liStats[0].innerHTML = `Hunger: ${this.hunger}`
