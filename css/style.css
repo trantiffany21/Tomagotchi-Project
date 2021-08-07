@@ -43,7 +43,19 @@ h1{
     border-radius: 50px;
     border-width: 5px;
     border-style: inset;
-    
+    background-image:  url('../images/awake.png');
+    opacity: .9;
+}
+#screen-sleep{
+    background-color: #88c070;
+    height: 300px;
+    width: 300px;
+    margin: 25px 0 0 100px ;
+    border-radius: 50px;
+    border-width: 5px;
+    border-style: inset;
+    background-image:  url('../images/sleep.png');
+    opacity: .9;
 }
 #stats{
     padding-top: 10px;
@@ -58,7 +70,9 @@ h1{
 }
 ul{
     list-style-type: none;
-    padding: 5px; 
+    text-shadow: -2px 0px black;
+    color: white;
+    padding: 10px; 
 }
 .button{
     height:75px;

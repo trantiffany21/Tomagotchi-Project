@@ -22,10 +22,10 @@ const game = () => {
         const sleepBtn = document.querySelector('#sleep')
         sleepBtn.addEventListener("click", ()=>toma.lightsOff())
         
-        const aging = setInterval(()=>toma.ageUp(),5000)
+        //const aging = setInterval(()=>toma.ageUp(),5000)
 
         //call game
-        const statChange = setInterval(()=>toma.game(),toma.time)
+        //const statChange = setInterval(()=>toma.game(),toma.time)
 
         if(toma.alive === false){
             clearInterval(aging)
@@ -46,6 +46,11 @@ class Tomagotchi{
         this.displayStats()
         this.time = 2000
         this.level = 1
+        this.start()
+
+
+        //this.statChange = setInterval(()=>this.game(),this.time)
+        //this.aging = setInterval(()=>toma.ageUp(),5000)""
     }
     displayStats(){
         const liStats = document.querySelectorAll('#statsList')
@@ -61,41 +66,50 @@ class Tomagotchi{
       
     }
     feed(){
+        if(this.alive === false){
+            return false
+        }
         if(this.hunger>1){
             this.hunger--
             this.displayStats()
         }
     }
     play(){
+        if(this.alive === false){
+            return false
+        }
         if(this.boredom>1){
             this.boredom--
             this.displayStats()
         }
     }
     lightsOff(){
+        if(this.alive === false){
+            return false
+        }
         if(this.sleep>1){
             this.sleep--
             const screen = document.querySelector('#screen')
-            screen.style.backgroundColor = "#346856"
+            screen.id = "screen-sleep";
             setTimeout(function(){
-                screen.style.backgroundColor = "#88c070"
+                screen.id = "screen"
                 },1000);
                 this.displayStats()
             }
     }
     ageUp(){
         if(this.alive === false){
+            this.clear()
             return false
         }
         this.age++
         this.displayStats()
-        
 
     }
     evolveCheck(){
         const img = document.querySelector("img")
         console.log(img.src)
-        if(this.age >=36 && this.level === 2){
+        if(this.age >=32 && this.level === 2){
             img.src = "images/charizard.png"
             const liStats = document.querySelectorAll("#statsList")
             liStats[0].innerHTML =`${this.name.toUpperCase()} evolved into CHARIZARD`
@@ -106,6 +120,7 @@ class Tomagotchi{
             liStats[3].innerHTML = ""
             this.level = 3
             this.time = 500
+            this.restart()
             return true;
         }else if(this.age >= 16 && this.level === 1){
             const liStats = document.querySelectorAll("#statsList")
@@ -119,27 +134,34 @@ class Tomagotchi{
             liStats[3].innerHTML = ""
             this.level = 2
             this.time = 1000
+            this.restart()
             return true; 
         }
         return false;
 
     }
     hungerUp(){
-        this.hunger++
-        if(this.hunger >=10 ){
-            this.gameOver("hunger")
+        if(this.alive === true){
+            this.hunger++
+            if(this.hunger >=10){
+                this.gameOver("hunger")
+            }
         }
     }
     sleepUp(){
-        this.sleep++
-        if(this.sleep >=10 ){
-            this.gameOver("fatigue")
+        if(this.alive === true){
+            this.sleep++
+            if(this.sleep >=10 ){
+                this.gameOver("fatigue")
+            }
         }
     }
     boredomUp(){
-        this.boredom++
-        if(this.boredom >=10 ){
-            this.gameOver("boredom")
+        if(this.alive === true){
+            this.boredom++
+            if(this.boredom >=10 ){
+                this.gameOver("boredom")
+            }
         }
     }
     game(){
@@ -177,7 +199,13 @@ class Tomagotchi{
         liStats[3].innerHTML = ""
         document.querySelector("img").src = "images/gameover.png"
         document.querySelector("img").style.height = "150px";
+        document.querySelector("#feed").disabled = true
+        console.log(document.querySelector("#feed"))
+        document.querySelector("#play").disabled = true
+        document.querySelector("#sleep").disabled = true
         this.alive = false
+        // clearInterval(this.statChange)
+        this.clear()
     }
 
     animate(){
@@ -189,6 +217,20 @@ class Tomagotchi{
         imgBox.style['justify-content'] = justify[rand1]
         imgBox.style['align-items'] = align[rand2]
     }
+    start(){
+        this.aging = setInterval(()=>this.ageUp(),5000)
+        this.statChange = setInterval(()=>this.game(),this.time)
+    }
+    restart(){
+        // clearInterval(this.statChange)
+        clearInterval(this.statChange)
+        this.statChange = setInterval(()=>this.game(),this.time)
+    }
+    clear(){
+        clearInterval(this.aging)
+        clearInterval(this.statChange)
+    }
+
 }
 
 
